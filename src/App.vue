@@ -36,7 +36,6 @@ const defaultBill = {
   status: 'Pending'
 };
 
-
 const bills = ref([]);
 
 const currentBill = ref({ ...defaultBill });
@@ -79,7 +78,7 @@ watchEffect(() => {
 });
 
 
-const saveBill = (billData) => {
+function saveBill (billData) {
   if(billData.id){
     const index = bills.value.findIndex(b => b.id == billData.id);
     if(index != -1){
@@ -88,15 +87,16 @@ const saveBill = (billData) => {
 
   } else {
     billData.id = Date.now();
+    console.log("id:",billData.id);
 
-    bills.value.push({ ...billData});
+    bills.value.push({...billData});
   }
 
   currentBill.value = { ...defaultBill};
   showForm.value = false;
-};
+}
 
-const editBill = (bill) => {
+function editBill(bill){
   currentBill.value = { ...bill};
   showForm.value = true;
 }
@@ -104,12 +104,13 @@ const editBill = (bill) => {
 function deleteBill(id){
   bills.value = bills.value.filter(bill => bill.id != id);
 }
-const cancelEdit = () => {
+
+function cancelEdit() {
   currentBill.value = {defaultBill};
   showForm.value = false;
-};
+}
 
-const addNewBill = () => {
+function addNewBill () {
 currentBill.value = { ...defaultBill};
 showForm.value = true;
 }
@@ -121,7 +122,7 @@ showForm.value = true;
     <img alt="Vue logo" src="./assets/logo.png" width="150" />
 
     <div v-if="!showForm">
-      <button @click="addNewBill">Add New Bill</button>
+      <button v-if="!showForm" @click="addNewBill">Add New Bill</button>
     </div>
 
     <BillForm v-if="showForm" 
@@ -130,6 +131,8 @@ showForm.value = true;
     @cancel="cancelEdit"
     />
     
+    <TabelList />
+    
     <BillList 
     v-if="!showForm"
     :bills="bills"
@@ -137,6 +140,4 @@ showForm.value = true;
     @delete="deleteBill"/>
     
    
-
-    
 </template>

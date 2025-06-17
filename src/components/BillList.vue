@@ -40,18 +40,19 @@ defineProps({
   bills : {
     type : Array,
     required : true
-  }
+  },
+  
 });
 
 const emit = defineEmits(['edit', 'delete']);
 
 
-const editBill = (bill) => {
+function editBill(bill) {
   emit('edit', bill);
-};
+}
 
-const deleteBill = (id) => {
+function deleteBill (id){
   emit('delete', id);
-};
+}
 
 </script>
